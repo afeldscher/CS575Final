@@ -1,4 +1,4 @@
-name: javaci
+name: JavaCI
 
 on: [push]
 
