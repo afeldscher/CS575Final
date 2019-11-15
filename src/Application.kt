@@ -100,7 +100,6 @@ class MainTemplate (val modal: AddItemModalTemplate = AddItemModalTemplate()): T
             styleLink("/static/styles.css")
             styleLink("https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css")
             script(src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js") {}
-            script(src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js") {}
             script(src = "/static/script.js") {}
             title { +"SE 575 Blockchain Project" }
         }
@@ -125,7 +124,6 @@ class AddItemModalTemplate : Template<HTML> {
                         classes += "materialize-textarea"
                     }
                     label { +"Block Data" }
-
                 }
                 div(classes = "modal-footer") {
                     a("#!", classes = "modal-close waves-effect waves-green btn-flat") { +"Add" }
