@@ -1,0 +1,38 @@
+
+block
+    parent hash
+    data
+    nonce
+
+
+Hashing  - client
+    block -> sha256
+
+
+
+solve: --- endpoint
+    post block
+    iterate nonce until hash < Y
+    return nonce
+
+
+Make GUI?
+    Setup react?
+
+
+TODO: build pipeline
+
+
+
+Adam:
+    Azure Setup
+    Kotlin solve endpoint
+        Block Class?
+    JS Hashing
+        Block Class?
+
+Safa:
+    Get GUI setup 
+    Themed???
+
+
