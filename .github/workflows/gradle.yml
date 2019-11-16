@@ -24,6 +24,8 @@ jobs:
       run: ./gradlew build
     - name: Test
       run: ./gradlew test
+    - name: Copy Static
+      run: cp -r ./static ./build/libs/ 
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v1
       with:
