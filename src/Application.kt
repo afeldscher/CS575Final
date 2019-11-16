@@ -70,7 +70,8 @@ fun Application.module(testing: Boolean = false) {
             }
         }
         static("static") {
-            staticRootFolder = File("static")
+            var static_dir: String = System.getenv("STATIC_RESOURCES_DIR") ?: "static"
+            staticRootFolder = File(static_dir)
             files("css")
             files("js")
             file("image.png")
