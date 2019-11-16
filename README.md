@@ -11,5 +11,5 @@ Deployed at: https://575blockchain.azurewebsites.net/
 ## Authors
 Adam Feldscher aff39
 
-Safa 
+Safa  
 
