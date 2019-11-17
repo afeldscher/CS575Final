@@ -1,3 +1,14 @@
-body {
+.header-row {
+    margin-top: 1em;
+}
 
+.block {
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+}
+
+.mine-btn {
+    margin: 1em 0;
 }

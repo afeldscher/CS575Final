@@ -2,7 +2,11 @@ function message(msg) {
     alert(msg);
 }
 
+function addBlock() {
+    const blockData = $('#blockDataTextArea').val();
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.modal');
-    var instances = M.Modal.init(elems);
+    let elems = document.querySelectorAll('.modal');
+    let instances = M.Modal.init(elems);
 });
