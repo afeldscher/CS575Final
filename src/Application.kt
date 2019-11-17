@@ -8,7 +8,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.features.CORS
 import io.ktor.features.CallLogging
-import io.ktor.html.*
+import io.ktor.html.Placeholder
+import io.ktor.html.Template
+import io.ktor.html.insert
+import io.ktor.html.respondHtmlTemplate
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
@@ -48,9 +51,7 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         get("/") {
-            call.respondHtmlTemplate(MainTemplate()) {
-                content { +"Add a block" }
-            }
+            call.respondHtmlTemplate(MainTemplate()) {}
         }
         static("static") {
             var static_dir: String = System.getenv("STATIC_RESOURCES_DIR") ?: "static"
@@ -80,13 +81,13 @@ suspend inline fun ApplicationCall.respondCss(builder: CSSBuilder.() -> Unit) {
 
 //START HTML Templates
 class MainTemplate : Template<HTML> {
-    val content = Placeholder<HtmlBlockTag>()
     override fun HTML.apply() {
         head {
             styleLink("/static/styles.css")
             styleLink("https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css")
             script(src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js") {}
             script(src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js") {}
+            script(src = "https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js") {}
             script(src = "/static/script.js") {}
             title { +"SE 575 Blockchain Project" }
         }
@@ -99,109 +100,46 @@ class MainTemplate : Template<HTML> {
                 }
             }
             div(classes = "container") {
-                this@apply.insert(HeaderRowTemplate()) {
-                    btnText {
-                        insert(content)
-                    }
-                }
-                div ("row" ) {
-                    this@apply.insert(BlockTemplate()) {}
-                    this@apply.insert(BlockTemplate()) {}
+                insert(HeaderRowTemplate()) {}
+                div("row") {
+                    id = "blockWrapper"
                 }
             }
-            this@apply.insert(AddItemModalTemplate()) {}
+            insert(AddItemModalTemplate()) {}
         }
     }
 }
 
-class HeaderRowTemplate : Template<HTML> {
-    val btnText = Placeholder<HtmlBlockTag>()
-    override fun HTML.apply() {
-        body {
-            div(classes = " header-row row") {
-                div(classes = "col s4") {
-                    a("#addItemModal", classes = "waves-effect waves-light btn modal-trigger") {
-                        insert(btnText)
-                    }
+class HeaderRowTemplate : Template<HtmlBlockTag> {
+    override fun HtmlBlockTag.apply() {
+        div(classes = " header-row row") {
+            div(classes = "col s4") {
+                a("#addItemModal", classes = "waves-effect waves-light btn modal-trigger") {
+                    +"Add a block"
                 }
             }
         }
     }
 }
 
-class AddItemModalTemplate : Template<HTML> {
-    override fun HTML.apply() {
-        body {
-            div(classes = "modal") {
-                id = "addItemModal"
-                div(classes = "modal-content") {
-                    h4 { +"Add a block" }
+class AddItemModalTemplate : Template<HtmlBlockTag> {
+    override fun HtmlBlockTag.apply() {
+        div(classes = "modal") {
+            id = "addItemModal"
+            div(classes = "modal-content") {
+                h4 { +"Add a block" }
+                div ("input-field add-block-textarea-wrapper"){
                     textArea(classes = "materialize-textarea") {
                         id = "blockDataTextArea"
                     }
-                    label { +"Block Data" }
-                }
-                div(classes = "modal-footer") {
-                    a("#!", classes = "modal-close waves-effect waves-green btn-flat") {
-                        onClick = "addBlock($('#blockDataTextArea').val())"
-                        +"Add"
-                    }
+                    label("active") {  +"Block Data" }
                 }
             }
-        }
-    }
-}
-
-class BlockTemplate : Template<HTML> {
-    override fun HTML.apply() {
-        body {
-            div ("block col s10 m5 l5") {
-                div {
-                    this@apply.insert(TextInputTemplate()) {
-                        inputId { id = "guid" }
-                        inputLabel { +"Block Id" }
-                    }
-                    this@apply.insert(TextInputTemplate()) {
-                        inputId { id = "parentHash" }
-                        inputLabel { +"Parent" }
-                    }
-                    div {
-                        textArea(classes = "materialize-textarea") {
-                            id = "blockData"
-                        }
-                        label { +"Data" }
-                    }
-                    this@apply.insert(TextInputTemplate()) {
-                        inputId { id = "nonce" }
-                        inputLabel { +"Nonce" }
-                    }
-                    this@apply.insert(TextInputTemplate()) {
-                        inputId { id = "hash" }
-                        inputLabel { +"Hash" }
-                    }
-                    div {
-                        button {
-                            classes += "waves-effect waves-light btn mine-btn"
-                            +"Mine"
-                        }
-                    }
+            div(classes = "modal-footer") {
+                a("#!", classes = "modal-close waves-effect waves-green btn-flat") {
+                    onClick = "addBlock($('#blockDataTextArea').val())"
+                    +"Add"
                 }
-            }
-        }
-    }
-}
-
-class TextInputTemplate : Template<HTML> {
-    val inputId = Placeholder<HtmlBlockTag>()
-    val inputLabel = Placeholder<HtmlBlockTag>()
-    override fun HTML.apply() {
-        body {
-            div {
-                input(InputType.text) {
-                    insert(inputId)
-                    disabled = true
-                }
-                label { insert(inputLabel) }
             }
         }
     }
