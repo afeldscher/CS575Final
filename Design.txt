@@ -20,8 +20,6 @@ Make GUI?
     Setup react?
 
 
-TODO: build pipeline
-
 
 
 Adam:

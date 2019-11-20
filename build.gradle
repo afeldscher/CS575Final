@@ -41,6 +41,8 @@ dependencies {
     compile "io.ktor:ktor-client-core-jvm:$ktor_version"
     compile "io.ktor:ktor-client-apache:$ktor_version"
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
+    compile("io.ktor:ktor-gson:$ktor_version")
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.13'
 }
 
 jar {

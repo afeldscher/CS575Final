@@ -8,22 +8,30 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.features.CORS
 import io.ktor.features.CallLogging
-import io.ktor.html.Placeholder
+import io.ktor.features.ContentNegotiation
+import io.ktor.gson.gson
 import io.ktor.html.Template
 import io.ktor.html.insert
 import io.ktor.html.respondHtmlTemplate
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.*
 import io.ktor.request.path
+import io.ktor.request.receive
+import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.get
+import io.ktor.routing.post
 import io.ktor.routing.routing
 import kotlinx.css.CSSBuilder
 import kotlinx.html.*
 import org.slf4j.event.Level
 import java.io.File
+import java.text.DateFormat
+import org.apache.commons.codec.digest.DigestUtils
+
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -49,10 +57,36 @@ fun Application.module(testing: Boolean = false) {
     val client = HttpClient(Apache) {
     }
 
+    install(ContentNegotiation) {
+        gson {
+            setDateFormat(DateFormat.LONG)
+            setPrettyPrinting()
+        }
+    }
+
     routing {
         get("/") {
             call.respondHtmlTemplate(MainTemplate()) {}
         }
+
+        post("/solve") {
+            val solve_req = call.receive<SolveRequest>()
+            if (!solve_req.block.is_valid()) {
+                call.respond(HttpStatusCode.BadRequest, "The block provided is not valid")
+            } else {
+                call.respond(BlockSolver().solve(solve_req))
+            }
+        }
+
+        post("/hash") {
+            val block = call.receive<Block>()
+            if (!block.is_valid()) {
+                call.respond(HttpStatusCode.BadRequest, "The block provided is not valid")
+            } else {
+                call.respond(HashResponse(block.get_hash()))
+            }
+        }
+
         static("static") {
             var static_dir: String = System.getenv("STATIC_RESOURCES_DIR") ?: "static"
             staticRootFolder = File(static_dir)
