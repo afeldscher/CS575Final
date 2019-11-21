@@ -1,5 +1,7 @@
 package com.blockchain
 
+import com.blockchain.models.SolveRequest
+import com.blockchain.models.SolveResponse
 import org.apache.commons.codec.digest.DigestUtils
 
 class BlockSolver() {

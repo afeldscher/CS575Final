@@ -1,4 +1,4 @@
-package com.blockchain
+package com.blockchain.models
 
 class SolveResponse(in_hash: String, in_nonce: Int, in_tries: Long, in_solved: Boolean) {
     val nonce: Int = in_nonce;

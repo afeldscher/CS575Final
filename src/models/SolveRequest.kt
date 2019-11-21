@@ -1,6 +1,10 @@
-package com.blockchain
+package com.blockchain.models
 
-class SolveRequest {
-    val block: Block = Block()
-    val max_tries: Int = 0;
+import com.blockchain.models.Block
+
+class SolveRequest(in_block: Block, in_max_tries: Int) {
+    val block: Block = in_block
+    val max_tries: Int = in_max_tries
+
+    constructor(): this(Block(), 0) {}
 }

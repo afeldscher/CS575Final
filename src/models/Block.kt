@@ -1,17 +1,21 @@
-package com.blockchain
+package com.blockchain.models
 
+import com.blockchain.hexStringToByteArray
+import com.blockchain.isHex
 import org.apache.commons.codec.digest.DigestUtils
 import java.nio.BufferOverflowException
 import java.nio.ByteBuffer
 
 
-class Block() {
-    private val version: Int = 0
-    private val parent_hash: String = ""
-    private val data: String = ""
-    private val sec_since_epoc: Int = 0
-    val target_zeros: Int = 0
-    var nonce: Int = 0
+class Block(in_version: Int, in_parent_hash: String, in_data: String, in_sec_since_epoc: Int, in_target_zeros: Int, in_nonce: Int) {
+    private val version: Int = in_version
+    private val parent_hash: String = in_parent_hash
+    private val data: String = in_data
+    private val sec_since_epoc: Int = in_sec_since_epoc
+    val target_zeros: Int = in_target_zeros
+    var nonce: Int = in_nonce
+
+    constructor(): this(0, "", "", 0, 0, 0) {}
 
     fun is_valid(): Boolean {
         return version >= 0 &&

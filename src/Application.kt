@@ -1,5 +1,8 @@
 package com.blockchain
 
+import com.blockchain.models.Block
+import com.blockchain.models.HashResponse
+import com.blockchain.models.SolveRequest
 import io.ktor.application.Application
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call

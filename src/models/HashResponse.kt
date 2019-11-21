@@ -1,4 +1,6 @@
-package com.blockchain
+package com.blockchain.models
+
+import com.blockchain.toHex
 
 class HashResponse(in_hash: String) {
     val hash: String = in_hash
