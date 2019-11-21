@@ -30,7 +30,6 @@ Adam:
         Block Class?
 
 Safa:
-    Get GUI setup 
-    Themed???
-
+    Hook into endpoints for hash and block 
+    Decide whether or not to add React, or a Ktor client frontend
 
