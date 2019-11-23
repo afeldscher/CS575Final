@@ -8,18 +8,13 @@ block
 Hashing  - client
     block -> sha256
 
-
-
 solve: --- endpoint
     post block
     iterate nonce until hash < Y
     return nonce
 
-
-Make GUI?
-    Setup react?
-
-
+Add theming
+    idea - restaurant bills + tips
 
 
 Adam:
@@ -31,5 +26,4 @@ Adam:
 
 Safa:
     Hook into endpoints for hash and block 
-    Decide whether or not to add React, or a Ktor client frontend
 

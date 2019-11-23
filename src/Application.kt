@@ -57,21 +57,16 @@ fun Application.module(testing: Boolean = false) {
         anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
     }
 
-    val client = HttpClient(Apache) {
-    }
+    val client = HttpClient(Apache) {}
 
-    install(ContentNegotiation) {
-        gson {
-            setDateFormat(DateFormat.LONG)
-            setPrettyPrinting()
-        }
-    }
+//    install(ContentNegotiation) {
+//        gson {
+//            setDateFormat(DateFormat.LONG)
+//            setPrettyPrinting()
+//        }
+//    }
 
     routing {
-        get("/") {
-            call.respondHtmlTemplate(MainTemplate()) {}
-        }
-
         post("/solve") {
             val solve_req = call.receive<SolveRequest>()
             if (!solve_req.block.is_valid()) {
@@ -90,13 +85,12 @@ fun Application.module(testing: Boolean = false) {
             }
         }
 
-        static("static") {
-            var static_dir: String = System.getenv("STATIC_RESOURCES_DIR") ?: "static"
-            staticRootFolder = File(static_dir)
-            files("css")
-            files("js")
-            file("image.png")
-            default("index.html")
+        static {
+            resource("/", "static/index.html")
+
+            static("/static") {
+                resources("static/static")
+            }
         }
     }
 }

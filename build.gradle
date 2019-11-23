@@ -61,3 +61,12 @@ jar {
     // files or particular types at will
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
+
+task cleanStatic(type: Delete) {
+    delete 'resources/static'
+}
+
+task deployStatic(type: Copy, dependsOn: 'cleanStatic') {
+    from fileTree('frontend/build')
+    into 'resources/static'
+}

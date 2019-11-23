@@ -1,0 +1,73 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+.header-row {
+  margin-top: 1em;
+}
+
+.block {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+}
+
+input[type=text]:not(.browser-default):disabled.block-field {
+  color: rgb(0, 0, 0);
+}
+
+.mine-btn {
+  margin: 1em 0;
+}
+
+.hash-textarea {
+  height: 4em !important;
+  color: rgb(0, 0, 0);
+}
+
+.materialize-textarea.hash-textarea {
+  height: 4.2em;
+  color: rgb(0, 0, 0) !important;
+  overflow-y: auto;
+}
+
+.materialize-textarea.data-textarea {
+  height: 10em;
+}
+
+.block.col.s11.m5.l5 {
+  min-width: 350px;
+  padding-top: 1em;
+}
+
+.add-block-textarea-wrapper {
+  margin-top: 2em !important;
+}
+
+.bad-block {
+  background-color: magenta;
+}
+
+.mined-block {
+  background-color: green;
+}
