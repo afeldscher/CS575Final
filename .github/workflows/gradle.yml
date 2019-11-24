@@ -18,20 +18,23 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Make gradlew executable
-      run: chmod +x ./gradlew
-    - name: Server Build
-      run: ./gradlew build
-    - name: Server Test
-      run: ./gradlew test
+    
     - name: Front End npm install
       run: ( cd ./frontend && npm install )
     - name: Front End npm run build
       run: ( cd ./frontend && npm run build )
     - name: Copy Frontend Build to resources
       run: mkdir resources/static && cp -r frontend/build/* resources/static
-    - name: Copy Resources
-      run: cp -r ./resources ./build/libs/
+      #    - name: Copy Resources
+      #      run: cp -r ./resources ./build/libs/
+
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+    - name: Server Build
+      run: ./gradlew build
+    - name: Server Test
+      run: ./gradlew test
+
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v1
       with:
