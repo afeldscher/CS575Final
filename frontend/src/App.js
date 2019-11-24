@@ -28,6 +28,7 @@ class BlockChainElement extends React.Component {
         this.mineBlock = this.mineBlock.bind(this);
         this.propagateChanges = this.propagateChanges.bind(this);
         this.handleTamper = this.handleTamper.bind(this);
+        this.resetAllBlocks = this.resetAllBlocks.bind(this);
     }
 
     addBlock() {
@@ -45,6 +46,13 @@ class BlockChainElement extends React.Component {
                 blocks: [...state.blocks, blockNode]
             }));
         });
+    }
+
+    resetAllBlocks() {
+        console.log("here");
+        let blocksArr = this.state.blocks;
+        blocksArr.forEach(block => block.mined = false);
+        this.setState(state => ({blocks: blocksArr}));
     }
 
     mineBlock(id) {
@@ -114,7 +122,7 @@ class BlockChainElement extends React.Component {
         let blocks = this.state.blocks;
         return (
             <div>
-                <HeaderRow addBlockFunction={this.addBlock}/>
+                <HeaderRow resetBlockFunction={this.resetAllBlocks} addBlockFunction={this.addBlock}/>
                 <div className="row">
                     {blocks.map((it, idx) => (
                         <Block key={idx} id={idx} guid={it.guid} parent={it.parent} data={it.data} nonce={it.nonce}
@@ -223,7 +231,7 @@ export class HeaderRow extends React.Component {
                     </div>
                     <div className="col s4">
                         <div className="input-field">
-                            <input defaultValue={this.DEFAULT_ZEROES} min="1" max="32" id="numZeroes" type="number"/>
+                            <input onChange={this.props.resetBlockFunction} defaultValue={this.DEFAULT_ZEROES} min="1" max="32" id="numZeroes" type="number"/>
                             <label htmlFor="numZeroes">Num Zeroes to Mine</label>
                         </div>
                     </div>
