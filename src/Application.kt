@@ -59,12 +59,12 @@ fun Application.module(testing: Boolean = false) {
 
     val client = HttpClient(Apache) {}
 
-//    install(ContentNegotiation) {
-//        gson {
-//            setDateFormat(DateFormat.LONG)
-//            setPrettyPrinting()
-//        }
-//    }
+    install(ContentNegotiation) {
+        gson {
+            setDateFormat(DateFormat.LONG)
+            setPrettyPrinting()
+        }
+    }
 
     routing {
         post("/solve") {
