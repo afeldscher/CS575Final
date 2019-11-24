@@ -49,7 +49,6 @@ class BlockChainElement extends React.Component {
     }
 
     resetAllBlocks() {
-        console.log("here");
         let blocksArr = this.state.blocks;
         blocksArr.forEach(block => block.mined = false);
         this.setState(state => ({blocks: blocksArr}));

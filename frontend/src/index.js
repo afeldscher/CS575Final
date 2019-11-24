@@ -8,8 +8,8 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(<BlockChainApp />, document.getElementById('root'));
 
 document.addEventListener('DOMContentLoaded', function() {
-    let elems = document.querySelectorAll('.modal');
-    let instances = M.Modal.init(elems);
+    let modalElements = document.querySelectorAll('.modal');
+    M.Modal.init(modalElements);
 });
 
 // If you want your app to work offline and load faster, you can change
