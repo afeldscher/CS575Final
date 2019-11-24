@@ -6,13 +6,28 @@ import org.apache.commons.codec.digest.DigestUtils
 
 class BlockSolver() {
 
-    private fun count_leading_0(hash: ByteArray): Int {
+    // Public for test only
+    fun count_leading_0(hash: ByteArray): Int {
         var numZeros: Int = 0
         for(elem in hash) {
-            if (elem.compareTo(0) != 0) {
+            val octet = elem.toInt()
+            // Get the two hex digits of the byte
+            val firstNib = (octet and 0xF0).ushr(4) // will be an int 0 - 15
+            val secondNib = octet and 0x0F
+
+            // Check first nibble
+            if (firstNib != 0) {
                 return numZeros
+            } else {
+                numZeros++
             }
-            numZeros++
+
+            // Check second nibble
+            if (secondNib != 0) {
+                return numZeros
+            } else {
+                numZeros++
+            }
         }
         return numZeros
     }
