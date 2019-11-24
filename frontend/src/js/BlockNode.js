@@ -24,4 +24,5 @@ class BlockNode {
         return await response.json();
     }
 }
+
 export default BlockNode;
