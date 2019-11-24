@@ -16,7 +16,7 @@ class BlockNode {
             target_zeros: 3,
             nonce: this.nonce
         };
-        const response = await fetch('http://localhost:8080/hash', {
+        const response = await fetch('/hash', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(postData),
