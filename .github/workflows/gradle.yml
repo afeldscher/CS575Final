@@ -31,7 +31,7 @@ jobs:
     - name: Copy Frontend Build to resources
       run: cp -r ./frontend/build/* ./resources/static/
     - name: Copy Resources
-      run: cp -r ./resources ./build/lib/
+      run: cp -r ./resources ./build/libs/
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v1
       with:
