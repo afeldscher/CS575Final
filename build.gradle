@@ -48,10 +48,6 @@ dependencies {
 jar {
     archiveName = "app.jar"
 
-    from('static') {
-        into 'static'
-    }
-
     manifest {
         attributes 'Main-Class': 'com.blockchain.ApplicationKt'
     }
