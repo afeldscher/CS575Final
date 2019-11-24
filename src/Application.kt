@@ -4,14 +4,12 @@ import com.blockchain.models.Block
 import com.blockchain.models.HashResponse
 import com.blockchain.models.SolveRequest
 import io.ktor.application.Application
-import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.CORS
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
-import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
@@ -19,11 +17,8 @@ import io.ktor.http.content.*
 import io.ktor.request.path
 import io.ktor.request.receive
 import io.ktor.response.respond
-import io.ktor.response.respondText
 import io.ktor.routing.post
 import io.ktor.routing.routing
-import kotlinx.css.CSSBuilder
-import kotlinx.html.*
 import org.slf4j.event.Level
 import java.text.DateFormat
 
@@ -82,18 +77,4 @@ fun Application.module(testing: Boolean = false) {
             }
         }
     }
-}
-
-fun FlowOrMetaDataContent.styleCss(builder: CSSBuilder.() -> Unit) {
-    style(type = ContentType.Text.CSS.toString()) {
-        +CSSBuilder().apply(builder).toString()
-    }
-}
-
-fun CommonAttributeGroupFacade.style(builder: CSSBuilder.() -> Unit) {
-    this.style = CSSBuilder().apply(builder).toString().trim()
-}
-
-suspend inline fun ApplicationCall.respondCss(builder: CSSBuilder.() -> Unit) {
-    this.respondText(CSSBuilder().apply(builder).toString(), ContentType.Text.CSS)
 }
