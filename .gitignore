@@ -2,6 +2,7 @@
 /.idea
 /out
 /build
+/resources/static
 *.iml
 *.ipr
 *.iws
