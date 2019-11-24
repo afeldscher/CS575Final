@@ -3,7 +3,7 @@ import M from 'materialize-css';
 import $ from 'jquery';
 import './App.css';
 import BlockNode from "./js/BlockNode";
-import {uuidv4, solveBlock} from './js/utils';
+import {solveBlock, uuidv4} from './js/utils';
 
 function App() {
     return (
@@ -32,7 +32,7 @@ class BlockChainElement extends React.Component {
 
     addBlock() {
         const blockData = $('#blockDataTextArea').val();
-        if(blockData.length === 0) { //todo: Delete this if this is desirable functionality
+        if (blockData.length === 0) { //todo: Delete this if this is desirable functionality
             M.toast({html: 'Cannot add an empty block.', classes: 'red'});
             return;
         }
@@ -63,7 +63,11 @@ class BlockChainElement extends React.Component {
                         blocks: blockArr,
                     }));
                 } else {
-                    this.propagateChanges(id, blockArr);
+                    this.propagateChanges(id, blockArr).then(newBlocks => {
+                        this.setState(state => ({
+                            blocks: blockArr,
+                        }));
+                    });
                 }
             } else {
                 M.toast({html: `Unable to solve block #${id + 1} after ${numTries} attempts`, classes: 'red'});
@@ -71,20 +75,17 @@ class BlockChainElement extends React.Component {
         });
     }
 
-    propagateChanges(id, blockArr) {
+    async propagateChanges(id, blockArr) {
         for (let i = id; i < this.state.blocks.length - 1; i++) {
             const parentHash = blockArr[i].hash;
             let currentBlock = blockArr[i + 1];
             currentBlock.parent = parentHash;
             currentBlock.mined = false;
-            currentBlock.getHash().then(response => {
-                currentBlock.hash = response.hash;
-                blockArr[i + 1] = currentBlock;
-                this.setState(state => ({
-                    blocks: blockArr,
-                }));
-            })
+            const response = await currentBlock.getHash();
+            currentBlock.hash = response.hash;
+            blockArr[i + 1] = currentBlock;
         }
+        return blockArr;
     }
 
     handleTamper(id, newData) {
@@ -100,7 +101,11 @@ class BlockChainElement extends React.Component {
                     blocks: blockArr,
                 }));
             } else {
-                this.propagateChanges(id, blockArr);
+                this.propagateChanges(id, blockArr).then(newBlocks => {
+                    this.setState(state => ({
+                        blocks: blockArr,
+                    }));
+                });
             }
         });
     }
@@ -147,7 +152,7 @@ class Block extends React.Component {
                 className={backgroundClass}>
                 <div>
                     <div className="block-header">
-                        <span className="block-title">Block #{this.props.id + 1}</span><br />
+                        <span className="block-title">Block #{this.props.id + 1}</span><br/>
                         <span>Status: {statusString}</span>
                     </div>
                     <TextBoxInput id={"guid"} value={this.props.guid} label={"GUID"}/>
@@ -156,7 +161,9 @@ class Block extends React.Component {
                                    onChangeFct={this.props.textareaOnChange}/>
                     <TextBoxInput id={"nonce"} value={this.props.nonce} label={"Nonce"}/>
                     <DisabledTextAreaInput id={"hash"} label={"Hash"} value={this.props.hash}/>
-                    <button className="waves-effect waves-light btn mine-btn green darken-1" onClick={this.triggerMine}>Mine</button>
+                    <button className="waves-effect waves-light btn mine-btn green darken-1"
+                            onClick={this.triggerMine}>Mine
+                    </button>
                 </div>
             </div>)
     }
@@ -174,7 +181,7 @@ function TextBoxInput(props) {
 function DisabledTextAreaInput(props) {
     return (
         <div className="input-field">
-            <textarea readOnly className="materialize-textarea hash-textarea" id={props.id} value={props.value} />
+            <textarea readOnly className="materialize-textarea hash-textarea" id={props.id} value={props.value}/>
             <label className="active">{props.label}</label>
         </div>);
 }
@@ -195,7 +202,7 @@ class TextAreaInput extends React.Component {
         return (
             <div className="input-field">
             <textarea onChange={this.triggerOnChangeFunction} className="materialize-textarea data-textarea"
-                      id={this.is} >{this.props.value}</textarea>
+                      id={this.is}>{this.props.value}</textarea>
                 <label className="active">{this.props.label}</label>
             </div>);
     }
@@ -204,6 +211,7 @@ class TextAreaInput extends React.Component {
 export class HeaderRow extends React.Component {
     DEFAULT_ZEROES = 2;
     DEFAULT_NUM_TRIES = 10000000;
+
     render() {
         return (
             <div>
@@ -230,7 +238,7 @@ export class HeaderRow extends React.Component {
                     <div className="modal-content">
                         <h4>Add a block</h4>
                         <div className="input-field add-block-textarea-wrapper">
-                            <textarea className="materialize-textarea" id="blockDataTextArea" />
+                            <textarea className="materialize-textarea" id="blockDataTextArea"/>
                             <label className="active">Block Data</label>
                         </div>
                     </div>
