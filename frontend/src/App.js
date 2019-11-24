@@ -23,7 +23,7 @@ class BlockChainElement extends React.Component {
         this.addBlock = this.addBlock.bind(this);
         this.mineBlock = this.mineBlock.bind(this);
         this.propagateChanges = this.propagateChanges.bind(this);
-
+        this.handleTamper = this.handleTamper.bind(this);
     }
 
     renderModal() {
@@ -99,6 +99,24 @@ class BlockChainElement extends React.Component {
         }
     }
 
+    handleTamper(id, newData) {
+        const block = this.state.blocks[id];
+        block.data = newData;
+        block.getHash().then(response => {
+            block.hash = response.hash;
+            block.mined = false;
+            let blockArr = this.state.blocks;
+            blockArr[id] = block;
+            if (id + 1 == this.state.blocks.length) {
+                this.setState(state => ({
+                    blocks: blockArr,
+                }));
+            } else {
+                this.propagateChanges(id, blockArr);
+            }
+        });
+    }
+
     render() {
         let blocks = this.state.blocks;
         return (
@@ -107,7 +125,8 @@ class BlockChainElement extends React.Component {
                 <div className="row">
                     {blocks.map((it, idx) => (
                         <Block id={idx} guid={it.guid} parent={it.parent} data={it.data} nonce={it.nonce}
-                               hash={it.hash} mineFunction={this.mineBlock} mined={it.mined}/>
+                               hash={it.hash} mineFunction={this.mineBlock} mined={it.mined}
+                               textareaOnChange={this.handleTamper}/>
                     ))}
                 </div>
             </div>
@@ -139,18 +158,18 @@ class Block extends React.Component {
                     <TextBoxInput id={"guid"} value={this.props.guid} label={"GUID"} isDisabled={true}></TextBoxInput>
                     <TextBoxInput id={"parent"} value={this.props.parent} label={"Parent"}
                                   isDisabled={true}></TextBoxInput>
-                    <TextAreaInput id={"data"} value={this.props.data} label={"Block Data"}
-                                   classes={"materialize-textarea data-textarea"}></TextAreaInput>
+                    <TextAreaInput blockId={this.props.id} id={"data"} value={this.props.data} label={"Block Data"}
+                                   classes={"materialize-textarea data-textarea"}
+                                   onChangeFct={this.props.textareaOnChange}></TextAreaInput>
                     <TextBoxInput id={"nonce"} value={this.props.nonce} label={"Nonce"}
                                   isDisabled={true}></TextBoxInput>
                     <DisabledTextAreaInput id={"hash"} label={"Hash"} value={this.props.hash}
-                                   classes={"materialize-textarea hash-textarea"}></DisabledTextAreaInput>
+                                           classes={"materialize-textarea hash-textarea"}></DisabledTextAreaInput>
                     <button className="waves-effect waves-light btn mine-btn" onClick={this.triggerMine}>Mine</button>
                 </div>
             </div>)
     }
 }
-
 
 
 function TextBoxInput(props) {
@@ -164,19 +183,33 @@ function TextBoxInput(props) {
 function DisabledTextAreaInput(props) {
     return (
         <div className="input-field">
-            <textarea readonly className={props.classes} id={props.id} value={props.value}
+            <textarea readOnly className={props.classes} id={props.id} value={props.value}
             ></textarea>
             <label className="active">{props.label}</label>
         </div>);
 }
 
-function TextAreaInput(props) {
-    return (
-        <div className="input-field">
-            <textarea className={props.classes} id={props.id}
-            >{props.value}</textarea>
-            <label className="active">{props.label}</label>
-        </div>);
+class TextAreaInput extends React.Component {
+    constructor(props) {
+        super(props);
+        this.triggerOnChangeFunction = this.triggerOnChangeFunction.bind(this);
+    }
+
+    triggerOnChangeFunction() {
+        const selector = '#' + this.props.id + '-' + this.props.blockId;
+        const blockData = $(selector).val();
+        this.props.onChangeFct(this.props.blockId, blockData);
+    }
+
+    render() {
+        return (
+            <div className="input-field">
+            <textarea onChange={this.triggerOnChangeFunction} className={this.props.classes}
+                      id={this.props.id + '-' + this.props.blockId}
+            >{this.props.value}</textarea>
+                <label className="active">{this.props.label}</label>
+            </div>);
+    }
 }
 
 // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
