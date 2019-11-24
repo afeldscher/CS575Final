@@ -12,7 +12,7 @@ class BlockNode {
             version: 0,
             parent_hash: this.parent,
             data: this.data,
-            sec_since_epoc: parseInt(new Date().getTime() / 1000),
+            sec_since_epoc: 0,
             target_zeros: 3,
             nonce: this.nonce
         };

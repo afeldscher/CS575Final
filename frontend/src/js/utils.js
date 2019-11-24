@@ -13,7 +13,7 @@ export async function solveBlock(parent, data, zeroes, maxTries) {
             version: 0,
             parent_hash: parent,
             data: data,
-            sec_since_epoc: parseInt(new Date().getTime() / 1000),
+            sec_since_epoc: 0,
             target_zeros: zeroes,
         }
     };

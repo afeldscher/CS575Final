@@ -202,14 +202,14 @@ class TextAreaInput extends React.Component {
         return (
             <div className="input-field">
             <textarea onChange={this.triggerOnChangeFunction} className="materialize-textarea data-textarea"
-                      id={this.is}>{this.props.value}</textarea>
+                      id={this.id}>{this.props.value}</textarea>
                 <label className="active">{this.props.label}</label>
             </div>);
     }
 }
 
 export class HeaderRow extends React.Component {
-    DEFAULT_ZEROES = 2;
+    DEFAULT_ZEROES = 4;
     DEFAULT_NUM_TRIES = 10000000;
 
     render() {
