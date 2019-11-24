@@ -65,9 +65,9 @@ input[type=text]:not(.browser-default):disabled.block-field {
 }
 
 .bad-block {
-  background-color: magenta;
+  background-color: #ffcdd2;
 }
 
 .mined-block {
-  background-color: green;
+  background-color: #c8e6c9;
 }

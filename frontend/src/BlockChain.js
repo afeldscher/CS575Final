@@ -3,45 +3,25 @@ class BlockNode {
         this.guid = guid;
         this.data = data;
         this.nonce = 0;
-        this.hash = 'xxxx' //todo: Add call to backend to populate this
-        this.parent = parentNode ? parentNode.hash : '<none>';
-        this.next = null
+        this.parent = parentNode ? parentNode.hash : '0000000000000000000000000000000000000000000000000000000000000000';
+        this.mined = false;
+    }
+
+    async getHash() {
+        const postData = {
+            version: 0,
+            parent_hash: this.parent,
+            data: this.data,
+            sec_since_epoc: parseInt(new Date().getTime() / 1000),
+            target_zeros: 3,
+            nonce: this.nonce
+        };
+        const response = await fetch('http://localhost:8080/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(postData),
+        });
+        return await response.json();
     }
 }
-
-class BlockChain {
-    constructor() {
-        this.head = null;
-        this.tail = null;
-        this.size = 0;
-    }
-
-    getHead() {
-        return this.head;
-    }
-
-    getTail() {
-        return this.tail();
-    }
-
-    add(guid, data) {
-        console.log("added block!");
-        const block = new BlockNode(guid, data);
-        let current;
-        if (this.head == null)
-            this.head = block;
-        else {
-            current = this.head;
-            while (current.next) {
-                current = current.next;
-            }
-            current.next = block
-        }
-        block.parent = this.tail;
-        this.tail = block;
-        this.size++;
-        return this;
-    }
-}
-
 export default BlockNode;
