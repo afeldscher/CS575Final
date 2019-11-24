@@ -8,9 +8,9 @@ export function uuidv4() {
     });
 }
 
-export async function solveBlock(parent, data, zeroes) {
+export async function solveBlock(parent, data, zeroes, maxTries) {
     const postData = {
-        max_tries: 10000000,
+        max_tries: maxTries,
         block: {
             version: 0,
             parent_hash: parent,

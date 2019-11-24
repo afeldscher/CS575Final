@@ -1,4 +1,5 @@
 import React from 'react';
+import M from 'materialize-css';
 import $ from 'jquery';
 import './App.css';
 import BlockNode from "./js/BlockNode";
@@ -31,6 +32,10 @@ class BlockChainElement extends React.Component {
 
     addBlock() {
         const blockData = $('#blockDataTextArea').val();
+        if(blockData.length === 0) { //todo: Delete this if this is desirable functionality
+            M.toast({html: 'Cannot add an empty block.', classes: 'red'});
+            return;
+        }
         $('#blockDataTextArea').val("");
         const parent = this.state.blocks[this.state.blocks.length - 1];
         let blockNode = new BlockNode(uuidv4(), blockData, parent);
@@ -44,20 +49,24 @@ class BlockChainElement extends React.Component {
 
     mineBlock(id) {
         const block = this.state.blocks[id];
-        solveBlock(block.parent, block.data, 1).then(response => {
+        const zeroes = $("#numZeroes").val();
+        const numTries = $('#numTries').val();
+        solveBlock(block.parent, block.data, zeroes, numTries).then(response => {
             if (response.solved) {
                 block.nonce = response.nonce;
                 block.hash = response.hash;
                 block.mined = true;
                 let blockArr = this.state.blocks;
                 blockArr[id] = block;
-                if (id + 1 == this.state.blocks.length) {
+                if (id + 1 === this.state.blocks.length) {
                     this.setState(state => ({
                         blocks: blockArr,
                     }));
                 } else {
                     this.propagateChanges(id, blockArr);
                 }
+            } else {
+                M.toast({html: `Unable to solve block #${id + 1} after ${numTries} attempts`, classes: 'red'});
             }
         });
     }
@@ -86,7 +95,7 @@ class BlockChainElement extends React.Component {
             block.mined = false;
             let blockArr = this.state.blocks;
             blockArr[id] = block;
-            if (id + 1 == this.state.blocks.length) {
+            if (id + 1 === this.state.blocks.length) {
                 this.setState(state => ({
                     blocks: blockArr,
                 }));
@@ -100,7 +109,7 @@ class BlockChainElement extends React.Component {
         let blocks = this.state.blocks;
         return (
             <div>
-                <Modal addBlockFunction={this.addBlock}/>
+                <HeaderRow addBlockFunction={this.addBlock}/>
                 <div className="row">
                     {blocks.map((it, idx) => (
                         <Block key={idx} id={idx} guid={it.guid} parent={it.parent} data={it.data} nonce={it.nonce}
@@ -138,7 +147,7 @@ class Block extends React.Component {
                 className={backgroundClass}>
                 <div>
                     <div className="block-header">
-                        <span class="block-title">Block #{this.props.id + 1}</span><br />
+                        <span className="block-title">Block #{this.props.id + 1}</span><br />
                         <span>Status: {statusString}</span>
                     </div>
                     <TextBoxInput id={"guid"} value={this.props.guid} label={"GUID"}/>
@@ -165,8 +174,7 @@ function TextBoxInput(props) {
 function DisabledTextAreaInput(props) {
     return (
         <div className="input-field">
-            <textarea readOnly className="materialize-textarea hash-textarea" id={props.id} value={props.value}
-            ></textarea>
+            <textarea readOnly className="materialize-textarea hash-textarea" id={props.id} value={props.value} />
             <label className="active">{props.label}</label>
         </div>);
 }
@@ -193,7 +201,9 @@ class TextAreaInput extends React.Component {
     }
 }
 
-export class Modal extends React.Component {
+export class HeaderRow extends React.Component {
+    DEFAULT_ZEROES = 2;
+    DEFAULT_NUM_TRIES = 10000000;
     render() {
         return (
             <div>
@@ -203,17 +213,29 @@ export class Modal extends React.Component {
                             Add a block
                         </a>
                     </div>
+                    <div className="col s4">
+                        <div className="input-field">
+                            <input defaultValue={this.DEFAULT_ZEROES} min="1" max="32" id="numZeroes" type="number"/>
+                            <label htmlFor="numZeroes">Num Zeroes to Mine</label>
+                        </div>
+                    </div>
+                    <div className="col s4">
+                        <div className="input-field">
+                            <input defaultValue={this.DEFAULT_NUM_TRIES} min="100" id="numTries" type="number"/>
+                            <label htmlFor="numTries">Max Tries Per Mine</label>
+                        </div>
+                    </div>
                 </div>
                 <div className="modal" id="addItemModal">
                     <div className="modal-content">
                         <h4>Add a block</h4>
                         <div className="input-field add-block-textarea-wrapper">
-                            <textarea className="materialize-textarea" id="blockDataTextArea"></textarea>
+                            <textarea className="materialize-textarea" id="blockDataTextArea" />
                             <label className="active">Block Data</label>
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <a href="#!" onClick={this.props.addBlockFunction}
+                        <a href="#" onClick={this.props.addBlockFunction}
                            className="modal-close waves-effect btn-flat">
                             Add
                         </a>

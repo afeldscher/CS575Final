@@ -31,7 +31,6 @@ input[type=text]:not(.browser-default):disabled.block-field {
   height: 10em;
   max-height: 10em;
   overflow-y: auto;
-
 }
 
 .block.col.s11.m5.l5 {
@@ -70,4 +69,21 @@ label.active {
   display: inline-block;
   font-size: 2.1rem;
   padding: 0;
+}
+
+.modal-trigger {
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.3rem;
+}
+
+#toast-container {
+  bottom: auto !important;
+  left: auto !important;
+  top: 5%;
+  right: 0;
+}
+
+.toast {
+  font-size: 1.25em;
 }
