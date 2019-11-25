@@ -26,8 +26,9 @@ class BlockChainElement extends React.Component {
         this.state = {blocks: []};
         this.addBlock = this.addBlock.bind(this);
         this.mineBlock = this.mineBlock.bind(this);
-        this.propagateChanges = this.propagateChanges.bind(this);
+        this.recalculateAllHashes = this.recalculateAllHashes.bind(this);
         this.handleTamper = this.handleTamper.bind(this);
+        this.propagateChanges = this.propagateChanges.bind(this);
         this.resetAllBlocks = this.resetAllBlocks.bind(this);
     }
 
@@ -63,26 +64,14 @@ class BlockChainElement extends React.Component {
                 block.nonce = response.nonce;
                 block.hash = response.hash;
                 block.mined = true;
-                let blockArr = this.state.blocks;
-                blockArr[id] = block;
-                if (id + 1 === this.state.blocks.length) {
-                    this.setState(state => ({
-                        blocks: blockArr,
-                    }));
-                } else {
-                    this.propagateChanges(id, blockArr).then(newBlocks => {
-                        this.setState(state => ({
-                            blocks: blockArr,
-                        }));
-                    });
-                }
+                this.propagateChanges(id, block);
             } else {
                 M.toast({html: `Unable to solve block #${id + 1} after ${numTries} attempts`, classes: 'red'});
             }
         });
     }
 
-    async propagateChanges(id, blockArr) {
+    async recalculateAllHashes(id, blockArr) {
         for (let i = id; i < this.state.blocks.length - 1; i++) {
             const parentHash = blockArr[i].hash;
             let currentBlock = blockArr[i + 1];
@@ -100,21 +89,25 @@ class BlockChainElement extends React.Component {
         block.data = newData;
         block.getHash().then(response => {
             block.hash = response.hash;
-            block.mined = false;
-            let blockArr = this.state.blocks;
-            blockArr[id] = block;
-            if (id + 1 === this.state.blocks.length) {
+            block.mined = hasLeadingZeroes(response.hash, $("#numZeroes").val());
+            this.propagateChanges(id, block);
+        });
+    }
+
+    propagateChanges(id, block) {
+        let blockArr = this.state.blocks;
+        blockArr[id] = block;
+        if (id + 1 === this.state.blocks.length) {
+            this.setState(state => ({
+                blocks: blockArr,
+            }));
+        } else {
+            this.recalculateAllHashes(id, blockArr).then(newBlocks => {
                 this.setState(state => ({
                     blocks: blockArr,
                 }));
-            } else {
-                this.propagateChanges(id, blockArr).then(newBlocks => {
-                    this.setState(state => ({
-                        blocks: blockArr,
-                    }));
-                });
-            }
-        });
+            });
+        }
     }
 
     render() {

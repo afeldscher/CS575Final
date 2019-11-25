@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 class BlockNode {
     constructor(guid, data, parentNode) {
         this.guid = guid;
@@ -13,7 +15,8 @@ class BlockNode {
             parent_hash: this.parent,
             data: this.data,
             sec_since_epoc: 0,
-            nonce: this.nonce
+            nonce: this.nonce,
+            target_zeros: $("#numZeroes").val().toString()
         };
         const response = await fetch('/hash', {
             method: 'POST',
