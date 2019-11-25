@@ -82,7 +82,7 @@ class BlockChainElement extends React.Component {
 
     async recalculateAllHashes(id, blockArr) {
         for (let i = id; i < this.state.blocks.length - 1; i++) {
-            const parentHash = i === 0 ? '0000000000000000000000000000000000000000000000000000000000000000' : blockArr[i].hash;
+            const parentHash = blockArr[i].hash;
             let currentBlock = blockArr[i + 1];
             currentBlock.parent = parentHash;
             const response = await currentBlock.getHash();
