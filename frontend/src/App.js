@@ -55,7 +55,12 @@ class BlockChainElement extends React.Component {
     }
 
     resetAllBlocks() {
-        this.propagateChanges(-1, this.state.blocks[0]);
+        let rootBlock = this.state.blocks[0];
+        rootBlock.getHash().then(response => {
+            rootBlock.hash = response.hash;
+            rootBlock.mined = hasLeadingZeroes(response.hash, $("#numZeroes").val());
+            this.propagateChanges(0, rootBlock);
+        });
     }
 
     mineBlock(id) {
@@ -77,7 +82,7 @@ class BlockChainElement extends React.Component {
 
     async recalculateAllHashes(id, blockArr) {
         for (let i = id; i < this.state.blocks.length - 1; i++) {
-            const parentHash = blockArr[i].hash;
+            const parentHash = i === 0 ? '0000000000000000000000000000000000000000000000000000000000000000' : blockArr[i].hash;
             let currentBlock = blockArr[i + 1];
             currentBlock.parent = parentHash;
             const response = await currentBlock.getHash();
