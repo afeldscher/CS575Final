@@ -11,6 +11,11 @@ function App() {
             <nav>
                 <div className="nav-wrapper light-blue center">
                     <a href="#" className="app-title">Blockchain Simulator</a>
+                    <ul id="nav-mobile" className="right hide-on-med-and-down">
+                        <a className="modal-trigger" href="#infoModal">
+                            <i title="About" className="material-icons">info_outline</i>
+                        </a>
+                    </ul>
                 </div>
             </nav>
             <div className="container">
@@ -216,18 +221,19 @@ export class HeaderRow extends React.Component {
             <div>
                 <div className=" header-row row">
                     <div className="col s4">
-                        <a href="#addItemModal" className="green darken-1 waves-effect waves-light btn modal-trigger">
+                        <a title="Click to add a block to the blockchain"
+                           href="#addItemModal" className="green darken-1 waves-effect waves-light btn modal-trigger">
                             Add a block
                         </a>
                     </div>
                     <div className="col s4">
-                        <div className="input-field">
+                        <div title="Specifies the difficulty for the hash solving algorithm" className="input-field">
                             <input onChange={this.props.resetBlockFunction} defaultValue={this.DEFAULT_ZEROES} min="1" max="32" id="numZeroes" type="number"/>
-                            <label htmlFor="numZeroes">Num Zeroes to Mine</label>
+                            <label htmlFor="numZeroes">Number of Leading Zeroes</label>
                         </div>
                     </div>
                     <div className="col s4">
-                        <div className="input-field">
+                        <div title="The maximum number of nonce values to try" className="input-field">
                             <input defaultValue={this.DEFAULT_NUM_TRIES} min="100" id="numTries" type="number"/>
                             <label htmlFor="numTries">Max Tries Per Mine</label>
                         </div>
@@ -245,6 +251,18 @@ export class HeaderRow extends React.Component {
                            className="modal-close waves-effect btn-flat">
                             Add
                         </a>
+                    </div>
+                </div>
+                <div className="modal" id="infoModal">
+                    <div className="modal-content">
+                        <h4>About this Application</h4>
+                        <p>This application is a blockchain simulator that uses a proof-of-work consensus algorithm.
+                            The specific hashing function is based on the
+                            <a href="https://en.bitcoin.it/wiki/Block_hashing_algorithm"> bitcoin hashing algorithm.</a>
+                        </p>
+                    </div>
+                    <div className="modal-footer">
+                        <a href="#" className="modal-close waves-effect btn-flat">Close</a>
                     </div>
                 </div>
             </div>

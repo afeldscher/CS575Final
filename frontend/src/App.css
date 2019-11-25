@@ -92,3 +92,7 @@ label.active {
 .toast {
   font-size: 1.25em;
 }
+
+nav ul a:hover {
+  background-color: rgba(0,0,0,0.0);
+}

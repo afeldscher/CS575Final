@@ -10,7 +10,7 @@ ReactDOM.render(<BlockChainApp />, document.getElementById('root'));
 
 document.addEventListener('DOMContentLoaded', function() {
     let modalElements = document.querySelectorAll('.modal');
-    let instances = M.Modal.init(modalElements, {onOpenEnd: () => {$('#blockDataTextArea').focus();}});
+    M.Modal.init(modalElements, {onOpenEnd: () => {$('#blockDataTextArea').focus();}});
 });
 
 // If you want your app to work offline and load faster, you can change
