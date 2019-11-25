@@ -3,7 +3,7 @@ import M from 'materialize-css';
 import $ from 'jquery';
 import './App.css';
 import BlockNode from "./js/BlockNode";
-import {solveBlock, uuidv4} from './js/utils';
+import {solveBlock, uuidv4, hasLeadingZeroes} from './js/utils';
 
 function App() {
     return (
@@ -50,7 +50,7 @@ class BlockChainElement extends React.Component {
 
     resetAllBlocks() {
         let blocksArr = this.state.blocks;
-        blocksArr.forEach(block => block.mined = false);
+        blocksArr.forEach(block => block.mined = hasLeadingZeroes(block.hash, $("#numZeroes").val()));
         this.setState(state => ({blocks: blocksArr}));
     }
 
@@ -87,9 +87,9 @@ class BlockChainElement extends React.Component {
             const parentHash = blockArr[i].hash;
             let currentBlock = blockArr[i + 1];
             currentBlock.parent = parentHash;
-            currentBlock.mined = false;
             const response = await currentBlock.getHash();
             currentBlock.hash = response.hash;
+            currentBlock.mined = hasLeadingZeroes(response.hash, $("#numZeroes").val());
             blockArr[i + 1] = currentBlock;
         }
         return blockArr;

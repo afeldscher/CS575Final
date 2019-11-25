@@ -13,7 +13,6 @@ class BlockNode {
             parent_hash: this.parent,
             data: this.data,
             sec_since_epoc: 0,
-            target_zeros: 3,
             nonce: this.nonce
         };
         const response = await fetch('/hash', {

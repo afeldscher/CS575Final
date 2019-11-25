@@ -24,3 +24,12 @@ export async function solveBlock(parent, data, zeroes, maxTries) {
     });
     return await response.json();
 }
+
+export function hasLeadingZeroes(hashStr, numZeroes) {
+    for(let i = 0; i < numZeroes; i++) {
+        if(hashStr[i] !== '0') {
+            return false;
+        }
+    }
+    return true;
+}
