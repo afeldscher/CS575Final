@@ -67,6 +67,7 @@ class BlockChainElement extends React.Component {
                 M.toast({html: `Unable to solve block #${id + 1} after ${numTries} attempts`, classes: 'red'});
             }
         });
+        M.toast({html: `Mining Block #${id + 1}...`, classes: 'green darken-1'});
     }
 
     async recalculateAllHashes(id, blockArr) {
@@ -234,10 +235,9 @@ export class HeaderRow extends React.Component {
                 </div>
                 <div className="modal" id="addItemModal">
                     <div className="modal-content">
-                        <h4>Add a block</h4>
+                        <h5>Enter data for new block</h5>
                         <div className="input-field add-block-textarea-wrapper">
-                            <textarea className="materialize-textarea" id="blockDataTextArea"/>
-                            <label className="active">Block Data</label>
+                            <textarea placeholder="Enter data here" className="materialize-textarea" id="blockDataTextArea"/>
                         </div>
                     </div>
                     <div className="modal-footer">
