@@ -50,9 +50,7 @@ class BlockChainElement extends React.Component {
     }
 
     resetAllBlocks() {
-        let blocksArr = this.state.blocks;
-        blocksArr.forEach(block => block.mined = hasLeadingZeroes(block.hash, $("#numZeroes").val()));
-        this.setState(state => ({blocks: blocksArr}));
+        this.propagateChanges(-1, this.state.blocks[0]);
     }
 
     mineBlock(id) {
