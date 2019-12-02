@@ -7,11 +7,17 @@ Adam Feldscher aff39
 Safa Aman sra68
   
 ## Overview
+Our project is a Restaurant Bill and Tip Simulator, built using a block chain. The idea being that a waiter/waitress will give a customer their check as a block. This is added to the chain using a proof of work hashing scheme. If they are a large party, the waiter may a tip upfront into the initial bill. Otherwise, the customer must add another block to the chain with their tip amount. 
 
+If a customer tries to be crafty and modify their bill, they will invalidate the chain, indicated by the block turning red on screen. Similarly, if a waiter/waitress tries to change their tip they will also invalidate the chain. 
+
+Since this is just a simulator, all state is maintained in the front end. It makes calls to the server to calculate hashes and solve blocks.
+
+## Demo video
+TODO
 
 
 ## Tech Stack 
-
 ### Backend: 
 * Kotlin on Java 8. 
 * Ktor Framework 
@@ -21,6 +27,9 @@ Safa Aman sra68
 * ReactJS
 * jQuery
 * Materialize-css
+
+## Architecture
+
 
 ## CI/CD Pipeline 
 
@@ -56,7 +65,7 @@ This plugin automatically pushes the jar file out to the container and restarts 
 Our Azure app is deployed at: https://575blockchain.azurewebsites.net/
 
 ## Remarks
-Overall this was a very exciting project. We got to explore several new technologies that we otherwise may have never explored:
+Overall this was a very exciting project. We got to explore several new technologies that we otherwise may have never come across:
 * Kotlin - Despite our past experience with Java and Spring Framework, neither of us had ever used Kotlin. We decided to jump in head first and found it to be easy to learn and fun to use. 
 * ReactJS - Having never used a framework like react before we initially had some issues getting it setup and working with the Kotlin server. After reading some tutorials we got everything working and found it made developing the front-end much easier. 
 * Github Actions - In the past we have used build systems such as Team City, which gave us a little more context here. Unlike many web based build servers, Github Actions uses entirely yaml based configuration. Not having a gui to fall back on took some getting used to, but overall it worked reliably and got the job done. 
@@ -70,4 +79,4 @@ Overall this was a very exciting project. We got to explore several new technolo
 * https://help.github.com/en/actions/automating-your-workflow-with-github-actions
 * https://docs.microsoft.com/en-us/azure/app-service/app-service-web-get-started-java
 * https://github.com/mbannikov/ktor-react-example
-
+* https://www.investopedia.com/terms/d/doublespending.asp
