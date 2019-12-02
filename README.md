@@ -36,9 +36,9 @@ TODO
 ## Architecture
 To give a high level overview of our architecture, we used the C4 Model.
 
-![Context Diagram](/diagrams/context.png?raw=true | width=300)
+![Context Diagram](/diagrams/context.png?raw=true =300x)
 
-![Context Diagram](/diagrams/container.png?raw=true | width=300)
+![Context Diagram](/diagrams/container.png?raw=true =300x)
 
 ![Context Diagram](/diagrams/component.png?raw=true)
 
