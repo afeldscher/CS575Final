@@ -3,7 +3,7 @@ import M from 'materialize-css';
 import $ from 'jquery';
 import './App.css';
 import BlockNode from "./js/BlockNode";
-import {solveBlock, uuidv4, hasLeadingZeroes} from './js/utils';
+import {hasLeadingZeroes, solveBlock, uuidv4} from './js/utils';
 
 function App() {
     return (
@@ -38,20 +38,19 @@ class BlockChainElement extends React.Component {
     }
 
     addBlock() {
-        const blockData = $('#blockDataTextArea').val();
-        if (blockData.length === 0) { //todo: Delete this if this is desirable functionality
-            M.toast({html: 'Cannot add an empty block.', classes: 'red'});
-            return;
+        const blockData = getNewBlockData();
+        if(blockData.id === '' || blockData.items) {
+            M.toast({html: `Cannot add block without an ID or bill items.`, classes: 'red'});
+        } else {
+            const parent = this.state.blocks[this.state.blocks.length - 1];
+            let blockNode = new BlockNode(uuidv4(), blockData, parent);
+            blockNode.getHash().then(response => {
+                blockNode.hash = response.hash;
+                this.setState(state => ({
+                    blocks: [...state.blocks, blockNode]
+                }));
+            });
         }
-        $('#blockDataTextArea').val("");
-        const parent = this.state.blocks[this.state.blocks.length - 1];
-        let blockNode = new BlockNode(uuidv4(), blockData, parent);
-        blockNode.getHash().then(response => {
-            blockNode.hash = response.hash;
-            this.setState(state => ({
-                blocks: [...state.blocks, blockNode]
-            }));
-        });
     }
 
     resetAllBlocks() {
@@ -67,7 +66,7 @@ class BlockChainElement extends React.Component {
         const block = this.state.blocks[id];
         const zeroes = $("#numZeroes").val();
         const numTries = $('#numTries').val();
-        solveBlock(block.parent, block.data, zeroes, numTries).then(response => {
+        solveBlock(block.parent, block.getDataAsString(), zeroes, numTries).then(response => {
             if (response.solved) {
                 block.nonce = response.nonce;
                 block.hash = response.hash;
@@ -95,7 +94,10 @@ class BlockChainElement extends React.Component {
 
     handleTamper(id, newData) {
         const block = this.state.blocks[id];
-        block.data = newData;
+        block.checkId = newData.id;
+        block.checkItems = newData.items;
+        block.checkCost = newData.cost;
+        block.checkTip = newData.tip;
         block.getHash().then(response => {
             block.hash = response.hash;
             block.mined = hasLeadingZeroes(response.hash, $("#numZeroes").val());
@@ -128,7 +130,9 @@ class BlockChainElement extends React.Component {
                     {blocks.map((it, idx) => (
                         <Block key={idx} id={idx} guid={it.guid} parent={it.parent} data={it.data} nonce={it.nonce}
                                hash={it.hash} mineFunction={this.mineBlock} mined={it.mined}
-                               textareaOnChange={this.handleTamper}/>
+                               textareaOnChange={this.handleTamper} checkId={it.checkId} checkItems={it.checkItems}
+                        checkCost={it.checkCost} checkTip={it.checkTip}
+                        />
                     ))}
                 </div>
             </div>
@@ -166,8 +170,8 @@ class Block extends React.Component {
                     </div>
                     <TextBoxInput id={"guid"} value={this.props.guid} label={"GUID"}/>
                     <DisabledTextAreaInput id={"parent"} value={this.props.parent} label={"Parent"}/>
-                    <TextAreaInput blockId={this.props.id} id={"data"} value={this.props.data} label={"Block Data"}
-                                   onChangeFct={this.props.textareaOnChange}/>
+                    <BlockDataContent id={this.props.id} checkId={this.props.checkId} checkItems={this.props.checkItems}
+                    checkCost={this.props.checkCost} checkTip={this.props.checkTip} onChangeFct={this.props.textareaOnChange}/>
                     <TextBoxInput id={"nonce"} value={this.props.nonce} label={"Nonce"}/>
                     <DisabledTextAreaInput id={"hash"} label={"Hash"} value={this.props.hash}/>
                     <button className="waves-effect waves-light btn mine-btn green darken-1"
@@ -178,6 +182,46 @@ class Block extends React.Component {
     }
 }
 
+class BlockDataContent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.triggerOnChangeFunction = this.triggerOnChangeFunction.bind(this);
+    }
+
+    triggerOnChangeFunction() {
+        const blockData = {
+            id: $('#checkId-' + this.props.id).val(),
+            items: $('#checkItems-' + this.props.id).val(),
+            cost: $('#checkCost-' + this.props.id).val(),
+            tip: $('#checkTip-' + this.props.id).val()
+        };
+        this.props.onChangeFct(this.props.id, blockData);
+    }
+
+    render() {
+        return (
+            <div>
+                <div className="input-field">
+                    <input onChange={this.triggerOnChangeFunction} className="block-field" id={"checkId-" + this.props.id} type="text" value={this.props.checkId}/>
+                    <label className="active" htmlFor={"checkId-" + this.props.id}>Check ID</label>
+                </div>
+                <div className="input-field">
+                    <textarea onChange={this.triggerOnChangeFunction} className="materialize-textarea data-textarea" id={"checkItems-" + this.props.id}
+                              id={"checkItems-" + this.props.id}>{this.props.checkItems}</textarea>
+                    <label className="active" htmlFor={"checkItems-" + this.props.id}>Items</label>
+                </div>
+                <div className="input-field">
+                    <input onChange={this.triggerOnChangeFunction} className="block-field" id={"checkCost-" + this.props.id} type="number" step="any" value={this.props.checkCost}/>
+                    <label className="active" htmlFor={"checkCost-" + this.props.id}>Cost</label>
+                </div>
+                <div className="input-field">
+                    <input onChange={this.triggerOnChangeFunction} className="block-field" id={"checkTip-" + this.props.id} type="number" step="any" value={this.props.checkTip}/>
+                    <label className="active" htmlFor={"checkTip-" + this.props.id}>Tip</label>
+                </div>
+            </div>
+        )
+    }
+}
 
 function TextBoxInput(props) {
     return (
@@ -193,28 +237,6 @@ function DisabledTextAreaInput(props) {
             <textarea readOnly className="materialize-textarea hash-textarea" id={props.id} value={props.value}/>
             <label className="active">{props.label}</label>
         </div>);
-}
-
-class TextAreaInput extends React.Component {
-    constructor(props) {
-        super(props);
-        this.triggerOnChangeFunction = this.triggerOnChangeFunction.bind(this);
-        this.id = this.props.id + "-" + this.props.blockId;
-    }
-
-    triggerOnChangeFunction() {
-        const blockData = $('#' + this.id).val();
-        this.props.onChangeFct(this.props.blockId, blockData);
-    }
-
-    render() {
-        return (
-            <div className="input-field">
-            <textarea onChange={this.triggerOnChangeFunction} className="materialize-textarea data-textarea"
-                      id={this.id}>{this.props.value}</textarea>
-                <label className="active">{this.props.label}</label>
-            </div>);
-    }
 }
 
 export class HeaderRow extends React.Component {
@@ -233,7 +255,8 @@ export class HeaderRow extends React.Component {
                     </div>
                     <div className="col s4">
                         <div title="Specifies the difficulty for the hash solving algorithm" className="input-field">
-                            <input onChange={this.props.resetBlockFunction} defaultValue={this.DEFAULT_ZEROES} min="1" max="32" id="numZeroes" type="number"/>
+                            <input onChange={this.props.resetBlockFunction} defaultValue={this.DEFAULT_ZEROES} min="1"
+                                   max="32" id="numZeroes" type="number"/>
                             <label htmlFor="numZeroes">Number of Leading Zeroes</label>
                         </div>
                     </div>
@@ -248,7 +271,7 @@ export class HeaderRow extends React.Component {
                     <div className="modal-content">
                         <h5>Enter data for new block</h5>
                         <div className="input-field add-block-textarea-wrapper">
-                            <textarea placeholder="Enter data here" className="materialize-textarea" id="blockDataTextArea"/>
+                            <AddBlockForm/>
                         </div>
                     </div>
                     <div className="modal-footer">
@@ -273,6 +296,44 @@ export class HeaderRow extends React.Component {
             </div>
         );
     }
+}
+
+function AddBlockForm() {
+    return (
+        <div>
+            <div className="input-field">
+                <input placeholder="Enter check ID" id="checkId" type="text"/>
+                <label htmlFor="checkId">Check Id</label>
+            </div>
+            <div className="input-field">
+                <textarea className="materialize-textarea" placeholder="Enter items on bill" id="checkItems"/>
+                <label htmlFor="checkItems">Items</label>
+            </div>
+            <div className="input-field">
+                <input placeholder="Enter total bill ($)" id="checkCost" step="any" type="number"/>
+                <label htmlFor="checkCost">Total Bill</label>
+            </div>
+            <div className="input-field">
+                <input placeholder="Enter tip" id="checkTip" type="number" step="any"/>
+                <label htmlFor="checkTip">Tip</label>
+            </div>
+        </div>
+
+    )
+}
+
+function getNewBlockData() {
+    let data = {
+        id: $('#checkId').val(),
+        items: $('#checkItems').val(),
+        cost: $('#checkCost').val(),
+        tip: $('#checkTip').val()
+    };
+    $('#checkId').val("");
+    $('#checkItems').val("");
+    $('#checkCost').val("");
+    $('#checkTip').val("");
+    return data;
 }
 
 export default App;

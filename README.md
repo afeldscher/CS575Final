@@ -71,7 +71,7 @@ All of the Kotlin Server code has unit tests written for it. We used jUnit to wr
 
 ### Deploy
 
-Once all of the build steps have been completed, the deploy step will begin. As part of the `gradle build`, a fat jar is built of the application. This contains all of the serer binaries and static content needed to run the application. This means that we simply need to deploy this jar and execute it on our server. 
+Once all of the build steps have been completed, the deploy step will begin. As part of the `gradle build`, a fat jar is built of the application. This contains all of the server binaries and static content needed to run the application. This means that we simply need to deploy this jar and execute it on our server. 
 
 On Azure we setup a Hosted Web App Container using free shared resources (with our student Dreamspark subscription). On creation we configured it to use Java 1.8. Github Actions has a built in plugin for Azure deployments. All we had to do was specify what files should be deployed (our jar) and our Azure Deployment Keys, via a secure variable. 
 
