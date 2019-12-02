@@ -1,4 +1,4 @@
-name: JavaCI
+name: Build-Deploy
 
 on: [push]
 
