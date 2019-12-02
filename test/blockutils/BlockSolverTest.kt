@@ -1,5 +1,6 @@
-package com.blockchain
+package com.blockchain.blockutils
 
+import com.blockchain.hexStringToByteArray
 import com.blockchain.models.Block
 import com.blockchain.models.SolveRequest
 import org.junit.Test
