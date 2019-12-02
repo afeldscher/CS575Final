@@ -1,5 +1,7 @@
-# SE 575 Final
+# Restaurant Block Chain
 Live Demo available at: https://575blockchain.azurewebsites.net/
+
+[![Actions Status](https://github.com/afeldscher/CS575Final/workflows/JavaCI/badge.svg)](https://github.com/afeldscher/CS575Final/actions)
 
 ## Authors
 Adam Feldscher aff39
