@@ -39,14 +39,18 @@ class BlockChainElement extends React.Component {
 
     addBlock() {
         const blockData = getNewBlockData();
-        const parent = this.state.blocks[this.state.blocks.length - 1];
-        let blockNode = new BlockNode(uuidv4(), blockData, parent);
-        blockNode.getHash().then(response => {
-            blockNode.hash = response.hash;
-            this.setState(state => ({
-                blocks: [...state.blocks, blockNode]
-            }));
-        });
+        if(blockData.id === '' || blockData.items) {
+            M.toast({html: `Cannot add block without an ID or bill items.`, classes: 'red'});
+        } else {
+            const parent = this.state.blocks[this.state.blocks.length - 1];
+            let blockNode = new BlockNode(uuidv4(), blockData, parent);
+            blockNode.getHash().then(response => {
+                blockNode.hash = response.hash;
+                this.setState(state => ({
+                    blocks: [...state.blocks, blockNode]
+                }));
+            });
+        }
     }
 
     resetAllBlocks() {
