@@ -1,5 +1,7 @@
-# SE 575 Final
+# Restaurant Block Chain
 Live Demo available at: https://575blockchain.azurewebsites.net/
+
+[![Actions Status](https://github.com/afeldscher/CS575Final/workflows/Build-Deploy/badge.svg)](https://github.com/afeldscher/CS575Final/actions)
 
 ## Authors
 Adam Feldscher aff39
@@ -16,7 +18,7 @@ Since this is just a simulator, all state is maintained in the front end. It mak
 ### Common Blockchain Problems
 Double Spend occurs when a malicious user tries to modify the block chain or spoof a transaction in order to spend their money multiple times. As blocks are added to the chain, this becomes increasingly harder, since the entire chain needs to be rehashed in order to rewrite the transaction log. This requires an enormous amount of computation power, in fact, > 51% of the mining power on the network. 
 
-In our restaurant block chain, we only have one authorized miner, the restaurant's server. This means that the restaurant owns 100% of the computation power. This removes the concern of customers trying to double spend, or waitresses trying to modify the chain to double their tips. 
+In our restaurant block chain, all transactions are added directly into the block chain. This means that in order to modify a transaction, you would have to recompute the entire chain. A restaurant only has one authorized miner, the restaurant's server. This means that the restaurant owns 100% of the computation power, meaning that customers can not rehash the chain. This removes the concern of customers trying to double spend, or waitresses trying to modify the chain to double their tips. 
 
 ## Demo video
 TODO
@@ -34,6 +36,13 @@ TODO
 * Materialize-css
 
 ## Architecture
+To give a high level overview of our architecture, we used the C4 Model.
+
+![Context Diagram](/diagrams/context.png?raw=true)
+
+![Context Diagram](/diagrams/container.png?raw=true)
+
+![Context Diagram](/diagrams/component.png?raw=true)
 
 
 ## CI/CD Pipeline 
@@ -55,13 +64,16 @@ The automated Github action profile is defined using a yaml configuration file, 
 
 If any of these steps are failing, the pipeline will stop and this badge will indicate a failed build:
 
-[![Actions Status](https://github.com/afeldscher/CS575Final/workflows/JavaCI/badge.svg)](https://github.com/afeldscher/CS575Final/actions)
+[![Actions Status](https://github.com/afeldscher/CS575Final/workflows/Build-Deploy/badge.svg)](https://github.com/afeldscher/CS575Final/actions)
 
 Clicking the badge reveals more information about what step failed and the build logs. 
 
+### Test
+All of the Kotlin Server code has unit tests written for it. We used jUnit to write the tests and verify coverage. These actually helped us find a few bugs in our hashing code!
+
 ### Deploy
 
-Once all of the build steps have been completed, the deploy step will begin. As part of the `gradle build`, a fat jar is built of the application. This contains all of the serer binaries and static content needed to run the application. This means that we simply need to deploy this jar and execute it on our server. 
+Once all of the build steps have been completed, the deploy step will begin. As part of the `gradle build`, a fat jar is built of the application. This contains all of the server binaries and static content needed to run the application. This means that we simply need to deploy this jar and execute it on our server. 
 
 On Azure we setup a Hosted Web App Container using free shared resources (with our student Dreamspark subscription). On creation we configured it to use Java 1.8. Github Actions has a built in plugin for Azure deployments. All we had to do was specify what files should be deployed (our jar) and our Azure Deployment Keys, via a secure variable. 
 

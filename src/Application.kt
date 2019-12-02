@@ -1,5 +1,6 @@
 package com.blockchain
 
+import com.blockchain.blockutils.BlockSolver
 import com.blockchain.models.Block
 import com.blockchain.models.HashResponse
 import com.blockchain.models.SolveRequest
