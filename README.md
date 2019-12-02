@@ -1,5 +1,7 @@
-# SE 575 Final
+# Restaurant Block Chain
 Live Demo available at: https://575blockchain.azurewebsites.net/
+
+[![Actions Status](https://github.com/afeldscher/CS575Final/workflows/Build-Deploy/badge.svg)](https://github.com/afeldscher/CS575Final/actions)
 
 ## Authors
 Adam Feldscher aff39
@@ -62,7 +64,7 @@ The automated Github action profile is defined using a yaml configuration file, 
 
 If any of these steps are failing, the pipeline will stop and this badge will indicate a failed build:
 
-[![Actions Status](https://github.com/afeldscher/CS575Final/workflows/JavaCI/badge.svg)](https://github.com/afeldscher/CS575Final/actions)
+[![Actions Status](https://github.com/afeldscher/CS575Final/workflows/Build-Deploy/badge.svg)](https://github.com/afeldscher/CS575Final/actions)
 
 Clicking the badge reveals more information about what step failed and the build logs. 
 
