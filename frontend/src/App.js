@@ -39,7 +39,7 @@ class BlockChainElement extends React.Component {
 
     addBlock() {
         const blockData = getNewBlockData();
-        if(blockData.id === '' || blockData.items) {
+        if(blockData.id === '' || blockData.items === '') {
             M.toast({html: `Cannot add block without an ID or bill items.`, classes: 'red'});
         } else {
             const parent = this.state.blocks[this.state.blocks.length - 1];
