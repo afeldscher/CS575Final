@@ -13,6 +13,11 @@ If a customer tries to be crafty and modify their bill, they will invalidate the
 
 Since this is just a simulator, all state is maintained in the front end. It makes calls to the server to calculate hashes and solve blocks.
 
+### Common Blockchain Problems
+Double Spend occurs when a malicious user tries to modify the block chain or spoof a transaction in order to spend their money multiple times. As blocks are added to the chain, this becomes increasingly harder, since the entire chain needs to be rehashed in order to rewrite the transaction log. This requires an enormous amount of computation power, in fact, > 51% of the mining power on the network. 
+
+In our restaurant block chain, we only have one authorized miner, the restaurant's server. This means that the restaurant owns 100% of the computation power. This removes the concern of customers trying to double spend, or waitresses trying to modify the chain to double their tips. 
+
 ## Demo video
 TODO
 
