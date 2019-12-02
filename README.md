@@ -34,6 +34,13 @@ TODO
 * Materialize-css
 
 ## Architecture
+To give a high level overview of our architecture, we used the C4 Model.
+
+![Context Diagram](/diagrams/context.png?raw=true)
+
+![Context Diagram](/diagrams/container.png?raw=true)
+
+![Context Diagram](/diagrams/component.png?raw=true)
 
 
 ## CI/CD Pipeline 
@@ -58,6 +65,9 @@ If any of these steps are failing, the pipeline will stop and this badge will in
 [![Actions Status](https://github.com/afeldscher/CS575Final/workflows/JavaCI/badge.svg)](https://github.com/afeldscher/CS575Final/actions)
 
 Clicking the badge reveals more information about what step failed and the build logs. 
+
+### Test
+All of the Kotlin Server code has unit tests written for it. We used jUnit to write the tests and verify coverage. These actually helped us find a few bugs in our hashing code!
 
 ### Deploy
 
