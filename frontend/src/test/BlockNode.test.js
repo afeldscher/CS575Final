@@ -56,7 +56,7 @@ describe('Test BlockNode class', () => {
             data: 'check-id-aitems-a10.991.99',
             sec_since_epoc: 0,
             nonce: 0,
-            target_zeros: 4
+            target_zeros: '4'
         };
         expect(window.fetch.mock.calls.length).toBe(1);
         expect(window.fetch.mock.calls[0][0]).toBe('/hash');

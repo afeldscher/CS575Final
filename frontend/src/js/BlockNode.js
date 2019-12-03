@@ -23,7 +23,7 @@ class BlockNode {
             data: this.getDataAsString(),
             sec_since_epoc: 0,
             nonce: this.nonce,
-            target_zeros: $("#numZeroes").val() ? $("#numZeroes").val().toString() : 4
+            target_zeros: $("#numZeroes").val() ? $("#numZeroes").val().toString() : '4'
         };
         const response = await fetch('/hash', {
             method: 'POST',
