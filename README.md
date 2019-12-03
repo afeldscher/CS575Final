@@ -97,3 +97,4 @@ Overall this was a very exciting project. We got to explore several new technolo
 * https://docs.microsoft.com/en-us/azure/app-service/app-service-web-get-started-java
 * https://github.com/mbannikov/ktor-react-example
 * https://www.investopedia.com/terms/d/doublespending.asp
+* https://jestjs.io/docs/en/tutorial-react
