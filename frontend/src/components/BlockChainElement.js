@@ -109,7 +109,7 @@ class BlockChainElement extends React.Component {
                 <HeaderRow resetBlockFunction={this.resetAllBlocks} addBlockFunction={this.addBlock}/>
                 <div className="row">
                     {blocks.map((it, idx) => (
-                        <Block key={idx} id={idx} guid={it.guid} parent={it.parent} data={it.data} nonce={it.nonce}
+                        <Block key={idx} id={idx} guid={it.guid} parent={it.parent} nonce={it.nonce}
                                hash={it.hash} mineFunction={this.mineBlock} mined={it.mined}
                                textareaOnChange={this.handleTamper} checkId={it.checkId} checkItems={it.checkItems}
                                checkCost={it.checkCost} checkTip={it.checkTip}

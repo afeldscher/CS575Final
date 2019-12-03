@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test <App> matches snapshot 1`] = `
+<div
+  className="App"
+>
+  <nav>
+    <div
+      className="nav-wrapper light-blue center"
+    >
+      <a
+        className="app-title"
+        href="#"
+      >
+        Blockchain Simulator
+      </a>
+      <ul
+        className="right hide-on-med-and-down"
+        id="nav-mobile"
+      >
+        <a
+          className="modal-trigger"
+          href="#infoModal"
+        >
+          <i
+            className="material-icons"
+            title="About"
+          >
+            info_outline
+          </i>
+        </a>
+      </ul>
+    </div>
+  </nav>
+  <div
+    className="container"
+  >
+    <div>
+      <div>
+        <div
+          className=" header-row row"
+        >
+          <div
+            className="col s4"
+          >
+            <a
+              className="green darken-1 waves-effect waves-light btn modal-trigger"
+              href="#addItemModal"
+              title="Click to add a block to the blockchain"
+            >
+              Add a block
+            </a>
+          </div>
+          <div
+            className="col s4"
+          >
+            <div
+              className="input-field"
+              title="Specifies the difficulty for the hash solving algorithm"
+            >
+              <input
+                defaultValue={4}
+                id="numZeroes"
+                max="32"
+                min="1"
+                onChange={[Function]}
+                type="number"
+              />
+              <label
+                htmlFor="numZeroes"
+              >
+                Number of Leading Zeroes
+              </label>
+            </div>
+          </div>
+          <div
+            className="col s4"
+          >
+            <div
+              className="input-field"
+              title="The maximum number of nonce values to try"
+            >
+              <input
+                defaultValue={10000000}
+                id="numTries"
+                min="100"
+                type="number"
+              />
+              <label
+                htmlFor="numTries"
+              >
+                Max Tries Per Mine
+              </label>
+            </div>
+          </div>
+        </div>
+        <div
+          className="modal"
+          id="addItemModal"
+        >
+          <div
+            className="modal-content"
+          >
+            <h5>
+              Enter data for new block
+            </h5>
+            <div
+              className="input-field add-block-textarea-wrapper"
+            >
+              <div>
+                <div
+                  className="input-field"
+                >
+                  <input
+                    id="checkId"
+                    placeholder="Enter check ID"
+                    type="text"
+                  />
+                  <label
+                    htmlFor="checkId"
+                  >
+                    Check Id
+                  </label>
+                </div>
+                <div
+                  className="input-field"
+                >
+                  <textarea
+                    className="materialize-textarea"
+                    id="checkItems"
+                    placeholder="Enter items on bill"
+                  />
+                  <label
+                    htmlFor="checkItems"
+                  >
+                    Items
+                  </label>
+                </div>
+                <div
+                  className="input-field"
+                >
+                  <input
+                    id="checkCost"
+                    placeholder="Enter total bill ($)"
+                    step="any"
+                    type="number"
+                  />
+                  <label
+                    htmlFor="checkCost"
+                  >
+                    Total Bill
+                  </label>
+                </div>
+                <div
+                  className="input-field"
+                >
+                  <input
+                    id="checkTip"
+                    placeholder="Enter tip"
+                    step="any"
+                    type="number"
+                  />
+                  <label
+                    htmlFor="checkTip"
+                  >
+                    Tip
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="modal-footer"
+          >
+            <a
+              className="modal-close waves-effect btn-flat"
+              href="#"
+              id="addItemModalButton"
+              onClick={[Function]}
+            >
+              Add
+            </a>
+          </div>
+        </div>
+        <div
+          className="modal"
+          id="infoModal"
+        >
+          <div
+            className="modal-content"
+          >
+            <h4>
+              About this Application
+            </h4>
+            <p>
+              This application is a blockchain simulator that uses a proof-of-work consensus algorithm. The specific hashing function is based on the
+              <a
+                href="https://en.bitcoin.it/wiki/Block_hashing_algorithm"
+              >
+                 bitcoin hashing algorithm.
+              </a>
+            </p>
+          </div>
+          <div
+            className="modal-footer"
+          >
+            <a
+              className="modal-close waves-effect btn-flat"
+              href="#"
+            >
+              Close
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        className="row"
+      />
+    </div>
+  </div>
+</div>
+`;

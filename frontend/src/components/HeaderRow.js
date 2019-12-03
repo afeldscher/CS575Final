@@ -36,7 +36,7 @@ export class HeaderRow extends React.Component {
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <a href="#" onClick={this.props.addBlockFunction}
+                        <a id="addItemModalButton" href="#" onClick={this.props.addBlockFunction}
                            className="modal-close waves-effect btn-flat">
                             Add
                         </a>
