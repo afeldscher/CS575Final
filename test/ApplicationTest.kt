@@ -1,26 +1,18 @@
 package com.blockchain
 
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
-import io.ktor.routing.*
 import io.ktor.http.*
-import io.ktor.html.*
-import kotlinx.html.*
-import kotlinx.css.*
-import io.ktor.features.*
-import org.slf4j.event.*
-import io.ktor.client.*
-import io.ktor.client.engine.apache.*
 import kotlin.test.*
 import io.ktor.server.testing.*
+import org.hamcrest.CoreMatchers.startsWith
+import org.junit.Assert.assertThat
 
 class ApplicationTest {
     @Test
-    fun testRoot() {
+    fun testStaticFilesServed() {
         withTestApplication({ module(testing = true) }) {
             handleRequest(HttpMethod.Get, "/").apply {
                 assertEquals(HttpStatusCode.OK, response.status())
+                assertThat(response.content, startsWith("<!doctype html><html"))
             }
         }
     }
