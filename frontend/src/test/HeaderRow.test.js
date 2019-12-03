@@ -1,5 +1,5 @@
 import React from 'react';
-import HeaderRow from './HeaderRow';
+import HeaderRow from '../components/HeaderRow';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
@@ -18,6 +18,7 @@ describe('Test <HeaderRow>', () => {
 
         expect(tree).toMatchSnapshot();
     });
+
 
     it('triggers addBlock callback on modal add item click', () => {
         const headerRow = shallow(<HeaderRow resetBlockFunction={resetAllBlocksMock} addBlockFunction={addBlockMock}/>);

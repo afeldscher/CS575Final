@@ -1,5 +1,5 @@
 import React from 'react';
-import BlockDataContent from './BlockDataContent';
+import BlockDataContent from '../components/BlockDataContent';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
