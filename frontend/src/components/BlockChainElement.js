@@ -4,7 +4,7 @@ import BlockNode from "../js/BlockNode";
 import {hasLeadingZeroes, solveBlock, uuidv4} from "../js/utils";
 import $ from "jquery";
 import HeaderRow from './HeaderRow';
-import Block from "./Block";
+import {Block} from "./Block";
 
 class BlockChainElement extends React.Component {
     constructor(props) {

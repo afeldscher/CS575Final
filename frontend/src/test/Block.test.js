@@ -1,9 +1,8 @@
 import React from 'react';
-import Block from '../components/Block';
-import { shallow } from 'enzyme';
+import {Block, DisabledTextAreaInput, TextBoxInput} from '../components/Block';
+import {shallow} from 'enzyme';
 import renderer from 'react-test-renderer';
-import HeaderRow from "../components/HeaderRow";
-
+import BlockDataContent from "../components/BlockDataContent";
 
 
 describe('Test <Block>', () => {
@@ -22,10 +21,10 @@ describe('Test <Block>', () => {
     const textareaOnChangeMock = jest.fn();
 
     it('renders without crashing', () => {
-        shallow( <Block key={idx} id={idx} guid={item.guid} parent={item.parent} nonce={item.nonce}
-                        hash={item.hash} mineFunction={mineBlockMock} mined={item.mined}
-                        textareaOnChange={textareaOnChangeMock} checkId={item.checkId} checkItems={item.checkItems}
-                        checkCost={item.checkCost} checkTip={item.checkTip}
+        shallow(<Block key={idx} id={idx} guid={item.guid} parent={item.parent} nonce={item.nonce}
+                       hash={item.hash} mineFunction={mineBlockMock} mined={item.mined}
+                       textareaOnChange={textareaOnChangeMock} checkId={item.checkId} checkItems={item.checkItems}
+                       checkCost={item.checkCost} checkTip={item.checkTip}
         />);
     });
 
@@ -38,5 +37,18 @@ describe('Test <Block>', () => {
             />,
         ).toJSON();
         expect(tree).toMatchSnapshot();
+    });
+
+    it('renders child elements', () => {
+        const wrapper = shallow(<Block key={idx} id={idx} guid={item.guid} parent={item.parent} nonce={item.nonce}
+                                       hash={item.hash} mineFunction={mineBlockMock} mined={item.mined}
+                                       textareaOnChange={textareaOnChangeMock} checkId={item.checkId}
+                                       checkItems={item.checkItems}
+                                       checkCost={item.checkCost} checkTip={item.checkTip}
+        />);
+        expect(wrapper.find(TextBoxInput)).toHaveLength(2);
+        expect(wrapper.find(DisabledTextAreaInput)).toHaveLength(2);
+        expect(wrapper.find(BlockDataContent)).toHaveLength(1);
+        expect(wrapper.find('button')).toHaveLength(1);
     });
 });

@@ -1,7 +1,7 @@
 import BlockDataContent from "./BlockDataContent";
 import React from 'react';
 
-class Block extends React.Component {
+export class Block extends React.Component {
     constructor(props) {
         super(props);
         this.triggerMine = this.triggerMine.bind(this);
@@ -43,7 +43,7 @@ class Block extends React.Component {
     }
 }
 
-function TextBoxInput(props) {
+export function TextBoxInput(props) {
     return (
         <div className="input-field">
             <input className="block-field" type="text" id={props.id} disabled={true} value={props.value}/>
@@ -51,12 +51,10 @@ function TextBoxInput(props) {
         </div>);
 }
 
-function DisabledTextAreaInput(props) {
+export function DisabledTextAreaInput(props) {
     return (
         <div className="input-field">
             <textarea readOnly className="materialize-textarea hash-textarea" id={props.id} value={props.value}/>
             <label className="active">{props.label}</label>
         </div>);
 }
-
-export default Block;
