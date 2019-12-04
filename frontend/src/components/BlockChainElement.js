@@ -36,11 +36,13 @@ class BlockChainElement extends React.Component {
 
     resetAllBlocks() {
         let rootBlock = this.state.blocks[0];
-        rootBlock.getHash().then(response => {
-            rootBlock.hash = response.hash;
-            rootBlock.mined = hasLeadingZeroes(response.hash, $("#numZeroes").val());
-            this.propagateChanges(0, rootBlock);
-        });
+        if(rootBlock) {
+            rootBlock.getHash().then(response => {
+                rootBlock.hash = response.hash;
+                rootBlock.mined = hasLeadingZeroes(response.hash, $("#numZeroes").val());
+                this.propagateChanges(0, rootBlock);
+            });
+        }
     }
 
     mineBlock(id) {
@@ -49,6 +51,7 @@ class BlockChainElement extends React.Component {
         const numTries = $('#numTries').val();
         solveBlock(block.parent, block.getDataAsString(), zeroes, numTries).then(response => {
             if (response.solved) {
+                console.log("here");
                 block.nonce = response.nonce;
                 block.hash = response.hash;
                 block.mined = true;

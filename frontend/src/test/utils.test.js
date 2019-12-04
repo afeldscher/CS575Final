@@ -25,7 +25,7 @@ describe('Test functions in utils', () => {
     });
 
     it('verifies solveBlock calls /solve with correct arguments', () => {
-        window.fetch = jest.fn().mockImplementation(() => Promise.resolve(new Response( '42', {'status': 200, "statusText" : "SuperSmashingGreat!"})));
+        window.fetch = jest.fn().mockImplementation(() => Promise.resolve(new Response( '42')));
         solveBlock(blockA.hash, blockB.getDataAsString(), 4, 1000);
         const postData = {
             max_tries: 1000,
