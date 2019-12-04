@@ -71,7 +71,14 @@ If any of these steps are failing, the pipeline will stop and this badge will in
 
 Clicking the badge reveals more information about what step failed and the build logs. 
 
-To run locally, execute the above steps after cloning the repository and then execute the jar using `java -jar .\build\libs\app.jar`
+### Running Locally
+
+To run locally, execute the steps in the previous section (Build) after cloning the repository and then execute the jar using `java -jar .\build\libs\app.jar`
+
+Alternatively, to run locally with Gradle and npm:
+1. Run `gradle run`. This starts the ktor backend on port 8080.  
+1. Run `(cd ./frontend && npm install)` to install node dependencies
+1. Run `(cd ./frontend && npm start)` to start the React app. A web browser should open at `localhost:8080`
 
 ### Test
 * All of the Kotlin Server code has unit tests written for it. We used jUnit to write the tests and verify coverage. These actually helped us find a few bugs in our hashing code!
