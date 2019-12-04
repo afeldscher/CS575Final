@@ -51,7 +51,6 @@ class BlockChainElement extends React.Component {
         const numTries = $('#numTries').val();
         solveBlock(block.parent, block.getDataAsString(), zeroes, numTries).then(response => {
             if (response.solved) {
-                console.log("here");
                 block.nonce = response.nonce;
                 block.hash = response.hash;
                 block.mined = true;
