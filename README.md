@@ -78,7 +78,7 @@ To run locally, execute the steps in the previous section (Build) after cloning 
 Alternatively, to run locally with Gradle and npm:
 1. Run `gradle run`. This starts the ktor backend on port 8080.  
 1. Run `(cd ./frontend && npm install)` to install node dependencies
-1. Run `(cd ./frontend && npm start)` to start the React app. A web browser should open at `localhost:8080`
+1. Run `(cd ./frontend && npm start)` to start the React app. A web browser should open at `localhost:3000`
 
 ### Test
 * All of the Kotlin Server code has unit tests written for it. We used jUnit to write the tests and verify coverage. These actually helped us find a few bugs in our hashing code!
