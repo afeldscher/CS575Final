@@ -69,7 +69,8 @@ If any of these steps are failing, the pipeline will stop and this badge will in
 Clicking the badge reveals more information about what step failed and the build logs. 
 
 ### Test
-All of the Kotlin Server code has unit tests written for it. We used jUnit to write the tests and verify coverage. These actually helped us find a few bugs in our hashing code!
+* All of the Kotlin Server code has unit tests written for it. We used jUnit to write the tests and verify coverage. These actually helped us find a few bugs in our hashing code!
+* The frontend React app has basic JavaScript tests. The tests use Jest to render React components and verify their behavior.
 
 ### Deploy
 
