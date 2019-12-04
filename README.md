@@ -21,8 +21,8 @@ Double Spend occurs when a malicious user tries to modify the block chain or spo
 In our restaurant block chain, all transactions are added directly into the block chain. This means that in order to modify a transaction, you would have to recompute the entire chain. A restaurant only has one authorized miner, the restaurant's server. This means that the restaurant owns 100% of the computation power, meaning that customers can not rehash the chain. This removes the concern of customers trying to double spend, or waitresses trying to modify the chain to double their tips. 
 
 ## Demo video
-TODO
 
+[![Alt text](https://img.youtube.com/vi/ljMrS6FFhmc/0.jpg)](https://www.youtube.com/watch?v=ljMrS6FFhmc)
 
 ## Tech Stack 
 ### Backend: 
